@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.lms.app.controller.AdminSettingsController" spacing="20" styleClass="root">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Admin Settings" styleClass="h1"/>
+
+    <!-- TabPane for Departments and Academic Years -->
+    <TabPane VBox.vgrow="ALWAYS">
+        
+        <!-- Departments Tab -->
+        <Tab text="Departments" closable="false">
+            <VBox spacing="15">
+                <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
+                
+                <Label text="Manage Departments" styleClass="h2"/>
+                
+                <!-- Add Department Section -->
+                <VBox spacing="10" styleClass="card">
+                    <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
+                    
+                    <Label text="Add New Department" styleClass="h3"/>
+                    
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <TextField fx:id="deptNameField" promptText="Department Name" HBox.hgrow="ALWAYS"/>
+                        <Button text="Add Department" onAction="#addDepartment" styleClass="button-success"/>
+                    </HBox>
+                    
+                    <TextField fx:id="deptDescField" promptText="Description (optional)"/>  
+                </VBox>
+                
+                <!-- Departments List -->
+                <VBox spacing="10" VBox.vgrow="ALWAYS">
+                    <Label text="Existing Departments"/>
+                    <TableView fx:id="departmentsTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn text="ID" prefWidth="60"/>
+                            <TableColumn text="Name" prefWidth="200"/>
+                            <TableColumn text="Description" prefWidth="300"/>
+                            <TableColumn text="Actions" prefWidth="150"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </VBox>
+        </Tab>
+
+        <!-- Academic Years Tab -->
+        <Tab text="Academic Years" closable="false">
+            <VBox spacing="15">
+                <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
+                
+                <Label text="Manage Academic Years" styleClass="h2"/>
+                
+                <!-- Add Academic Year Section -->
+                <VBox spacing="10" styleClass="card">
+                    <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
+                    
+                    <Label text="Add New Academic Year" styleClass="h3"/>
+                    
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <TextField fx:id="yearNameField" promptText="Year (e.g., 2024-2025)" prefWidth="200"/>
+                        <CheckBox fx:id="yearActiveCheck" text="Active" selected="true"/>
+                        <Button text="Add Year" onAction="#addAcademicYear" styleClass="button-success"/>
+                    </HBox>
+                </VBox>
+                
+                <!-- Years List -->
+                <VBox spacing="10" VBox.vgrow="ALWAYS">
+                    <Label text="Existing Academic Years"/>
+                    <TableView fx:id="yearsTable" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn text="ID" prefWidth="60"/>
+                            <TableColumn text="Year" prefWidth="150"/>
+                            <TableColumn text="Status" prefWidth="100"/>
+                            <TableColumn text="Actions" prefWidth="150"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </VBox>
+        </Tab>
+    </TabPane>
+</VBox>

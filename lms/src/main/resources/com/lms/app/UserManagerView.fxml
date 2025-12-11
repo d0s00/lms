@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.lms.app.controller.UserManagerController" spacing="10" styleClass="card" style="-fx-padding: 20;">
+
+    <Label text="User Management" styleClass="h1"/>
+
+    <TableView fx:id="userTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="idCol" text="ID" prefWidth="50" />
+            <TableColumn fx:id="usernameCol" text="Username" prefWidth="200"/>
+            <TableColumn fx:id="roleCol" text="Role" prefWidth="150"/>
+        </columns>
+    </TableView>
+
+    <HBox spacing="10" alignment="CENTER_LEFT" styleClass="card" style="-fx-padding: 10;">
+        <TextField fx:id="usernameField" promptText="New Username"/>
+        <PasswordField fx:id="passwordField" promptText="Password"/>
+        <ComboBox fx:id="roleCombo" prefWidth="120"/>
+        <Button text="Add User" onAction="#addUser" styleClass="button-success"/>
+    </HBox>
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Button text="Edit Selected" onAction="#editSelectedUser" styleClass="button-primary"/>
+        <Button text="Delete Selected" onAction="#deleteSelectedUser" styleClass="button-danger"/>
+    </HBox>
+    <Label text="Double-click user to Edit" style="-fx-text-fill: grey;"/>
+    <Label text="Right-click user to Edit/Delete" style="-fx-text-fill: grey;"/>
+</VBox>

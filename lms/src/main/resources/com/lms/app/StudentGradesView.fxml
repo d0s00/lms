@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.lms.app.controller.StudentGradesController" spacing="20" styleClass="card" style="-fx-padding: 30;">
+
+    <Label text="My Grades" styleClass="h1"/>
+
+    <HBox spacing="20" alignment="CENTER_LEFT">
+        <Label fx:id="totalScoreLbl" text="Total Score: Loading..." styleClass="h2"/>
+    </HBox>
+
+    <TableView fx:id="gradesTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="courseCol" text="Course" prefWidth="200"/>
+            <TableColumn fx:id="assignmentCol" text="Assignment" prefWidth="250"/>
+            <TableColumn fx:id="scoreCol" text="Score" prefWidth="100"/>
+            <TableColumn fx:id="maxScoreCol" text="Max Score" prefWidth="100"/>
+            <TableColumn fx:id="feedbackCol" text="Feedback" prefWidth="200"/>
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+    </TableView>
+
+</VBox>

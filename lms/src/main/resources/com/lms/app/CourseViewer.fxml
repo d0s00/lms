@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+
+<ScrollPane fitToWidth="true" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.lms.app.controller.CourseViewerController">
+    <content>
+        <VBox spacing="10" style="-fx-padding: 20;">
+            <!-- Course Cover Image -->
+            <ImageView fx:id="courseImage" fitHeight="200" preserveRatio="true" />
+            
+            <HBox alignment="CENTER_LEFT" spacing="20">
+                <Label fx:id="courseTitleLbl" styleClass="h1"/>
+                <Region HBox.hgrow="ALWAYS" />
+                <Button fx:id="editModulesBtn" text="Edit Modules" visible="false" managed="false"/>
+                <Button text="Close" onAction="#handleClose" styleClass="button-secondary" />
+            </HBox>
+            <Label fx:id="instructorNameLbl" style="-fx-font-size: 14px; -fx-text-fill: #555;"/>
+            <Separator/>
+            <VBox fx:id="modulesContainer" spacing="15"/>
+        </VBox>
+    </content>
+</ScrollPane>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.lms.app.controller.ModuleEditorController" spacing="10" styleClass="card" prefWidth="900" prefHeight="700">
+
+    <HBox alignment="CENTER_LEFT">
+        <Label text="Course Modules" styleClass="h2"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Close" onAction="#handleClose" styleClass="button-secondary" />
+    </HBox>
+    <Label fx:id="statusLbl" style="-fx-font-weight: bold;"/>
+    
+    <TableView fx:id="moduleTable" VBox.vgrow="ALWAYS">
+        <placeholder>
+            <Label text="No modules added yet. Click 'Add Module' to start."/>
+        </placeholder>
+        <columns>
+            <TableColumn fx:id="modTitleCol" text="Module Title" prefWidth="200"/>
+            <TableColumn fx:id="modTypeCol" text="Type" prefWidth="60"/>
+            <TableColumn fx:id="modDateCol" text="Date" prefWidth="90"/>
+            <TableColumn fx:id="modActionCol" text="Actions" prefWidth="80"/>
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+    </TableView>
+
+    <Label text="Add New Module" styleClass="h2"/>
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <TextField fx:id="modTitleField" promptText="Module Title" HBox.hgrow="ALWAYS"/>
+        <Button fx:id="fileBtn" text="Upload File" onAction="#chooseFile" styleClass="button"/>
+        <Button text="Add Module" onAction="#addModule" styleClass="button-primary"/>
+    </HBox>
+
+    <Separator/>
+    
+    <HBox spacing="20">
+        <!-- Add Assignment Form -->
+        <VBox spacing="10" HBox.hgrow="ALWAYS" styleClass="card">
+            <Label text="Add Assignment to Module" styleClass="h2"/>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <ComboBox fx:id="moduleSelector" promptText="Select Module" prefWidth="150" onAction="#onModuleSelected"/>
+                <VBox spacing="5" HBox.hgrow="ALWAYS">
+                    <TextArea fx:id="assignDescField" promptText="Assignment Description" prefRowCount="2"/>
+                </VBox>
+            </HBox>
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Max Score:"/>
+                <TextField fx:id="maxScoreField" promptText="100" prefWidth="60"/>
+                <Label text="Due:"/>
+                <DatePicker fx:id="dueDatePicker" prefWidth="120"/>
+                <Button fx:id="assignFileBtn" text="Attach File" onAction="#chooseAssignmentFile" styleClass="button"/>
+            </HBox>
+            <Button text="Create Assignment" onAction="#addAssignment" maxWidth="Infinity" styleClass="button-success"/>
+        </VBox>
+
+        <!-- Assignment List -->
+        <VBox spacing="5" minWidth="250" prefWidth="300" styleClass="card">
+            <Label text="Assignments in Selected Module" styleClass="h2"/>
+            <ListView fx:id="assignmentList" VBox.vgrow="ALWAYS"/>
+            <Button text="Delete Selected Assignment" onAction="#deleteAssignment" maxWidth="Infinity" styleClass="button-danger"/>
+        </VBox>
+    </HBox>
+
+</VBox>
