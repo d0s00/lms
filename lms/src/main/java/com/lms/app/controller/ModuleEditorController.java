@@ -176,12 +176,35 @@ public class ModuleEditorController {
         String title = modTitleField.getText();
 
         if (title.isEmpty() || selectedDoc == null) {
-            // Basic validation
+            statusLbl.setText("Please select a file and enter a title.");
+            statusLbl.setStyle("-fx-text-fill: red;");
+            return;
+        }
+
+        if (this.courseId == 0) {
+            statusLbl.setText("Error: Course ID not set.");
+            statusLbl.setStyle("-fx-text-fill: red;");
+            return;
+        }
+
+        // Check file size (max 16MB for safety with default MySQL settings)
+        if (selectedDoc.length() > 16 * 1024 * 1024) {
+            statusLbl.setText("File too large (>16MB).");
+            statusLbl.setStyle("-fx-text-fill: red;");
             return;
         }
 
         String fileName = selectedDoc.getName();
-        String fileType = fileName.substring(fileName.lastIndexOf(".") + 1);
+        String fileType = "file";
+        int dotIndex = fileName.lastIndexOf(".");
+        if (dotIndex >= 0 && dotIndex < fileName.length() - 1) {
+            fileType = fileName.substring(dotIndex + 1);
+        }
+
+        // Truncate to 10 chars to fit database column
+        if (fileType.length() > 10) {
+            fileType = fileType.substring(0, 10);
+        }
 
         String sql = "INSERT INTO modules (course_id, title, module_data, file_type, upload_date) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getInstance().getConnection();
@@ -201,7 +224,7 @@ public class ModuleEditorController {
             fileBtn.setText("Upload File");
         } catch (SQLException e) {
             e.printStackTrace();
-            statusLbl.setText("Error Adding Module.");
+            statusLbl.setText("DB Error: " + e.getMessage());
             statusLbl.setStyle("-fx-text-fill: red;");
         }
     }
@@ -282,13 +305,26 @@ public class ModuleEditorController {
                 stmt.setDate(4, Date.valueOf(dueDate));
 
                 if (selectedAssignmentDoc != null) {
+                    if (selectedAssignmentDoc.length() > 16 * 1024 * 1024) {
+                        statusLbl.setText("Assignment file too large (>16MB).");
+                        statusLbl.setStyle("-fx-text-fill: red;");
+                        return;
+                    }
+
                     stmt.setBytes(5, FileHandler.readFileToBytes(selectedAssignmentDoc));
                     String fileName = selectedAssignmentDoc.getName();
-                    String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+                    String ext = "file";
+                    int dotIndex = fileName.lastIndexOf(".");
+                    if (dotIndex >= 0 && dotIndex < fileName.length() - 1) {
+                        ext = fileName.substring(dotIndex + 1);
+                    }
+                    if (ext.length() > 10)
+                        ext = ext.substring(0, 10);
+
                     stmt.setString(6, ext);
                 } else {
                     stmt.setBytes(5, null);
-                    stmt.setString(6, null);
+                    stmt.setString(6, null); // file_type can be null
                 }
 
                 stmt.executeUpdate();
@@ -306,9 +342,13 @@ public class ModuleEditorController {
         } catch (NumberFormatException e) {
             statusLbl.setText("Max Score must be a number.");
             statusLbl.setStyle("-fx-text-fill: red;");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            statusLbl.setText("DB Error: " + e.getMessage());
+            statusLbl.setStyle("-fx-text-fill: red;");
         } catch (Exception e) {
             e.printStackTrace();
-            statusLbl.setText("Error adding assignment.");
+            statusLbl.setText("Error: " + e.getMessage());
             statusLbl.setStyle("-fx-text-fill: red;");
         }
     }

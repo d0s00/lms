@@ -27,7 +27,17 @@ public class DatabaseConnection {
     private DatabaseConnection() {
         try {
             loadProperties();
+
+            // Connect first
             connection = DriverManager.getConnection(url, user, password);
+
+            // Set session variable immediately after connection
+            try (java.sql.Statement stmt = connection.createStatement()) {
+                stmt.execute("SET SESSION max_allowed_packet=67108864"); // 64MB
+            } catch (SQLException e) {
+                System.err.println("Warning: Could not set max_allowed_packet: " + e.getMessage());
+            }
+
         } catch (SQLException | java.io.IOException e) {
             e.printStackTrace();
         }
